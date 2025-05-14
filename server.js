@@ -14,7 +14,7 @@ app.get('/age', (_req, res) => {
 });
 
 app.get('/nationality', (_req, res) =>{
-  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), nationality: 'Mexico, Chiapas' });
+  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), nationality: 'Mexico, Chiapas, Tzimol' });
 });
 
 const PORT = process.env.PORT || 3000;
