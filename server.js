@@ -6,11 +6,11 @@ app.use(helmet());
 app.use(express.json());
 
 app.get('/health', (_req, res) => {
-  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), author: 'Eugenio Gordillo Argüello' });
+  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), author: 'Eugenio Gordillo Argüello!' });
 });
 
 app.get('/age', (_req, res) => {
-  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), age: '21 years old' });
+  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), age: '21 years old :]' });
 });
 
 app.get('/nationality'), (_req, res) =>{

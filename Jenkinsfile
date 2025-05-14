@@ -3,9 +3,8 @@ pipeline {
 
     environment {
         EC2_USER = 'ubuntu'
-        EC2_IP = '44.208.14.38'
+        EC2_IP = '44.208.14.38' 
         REMOTE_PATH = '/home/ubuntu/healthcheck'
-        SSH_KEY = credentials('ssh-key-ec2')
     }
 
     stages {
@@ -39,14 +38,24 @@ pipeline {
 
                     echo "🚀 Desplegando a ${nodeEnv.toUpperCase()} en ${EC2_IP}"
 
-                    sh """
-                    ssh -i $SSH_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_IP '
-                        cd $REMOTE_PATH &&
-                        git pull origin ${env.BRANCH_NAME} &&
-                        npm ci &&
-                        NODE_ENV=${nodeEnv} pm2 restart health-api || NODE_ENV=${nodeEnv} pm2 start server.js --name health-api
-                    '
-                    """
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-ec2', keyFileVariable: 'SSH_KEY')]) {
+                        sh """
+                        ssh -i \$SSH_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_IP '
+                            if [ ! -d "$REMOTE_PATH/.git" ]; then
+                                echo "🧱 Clonando repositorio porque no existe..."
+                                git clone https://github.com/ItsEugenio/healthcheck.git $REMOTE_PATH
+                            fi &&
+                            cd $REMOTE_PATH &&
+                            git reset --hard &&
+                            git fetch origin &&
+                            git checkout ${env.BRANCH_NAME} &&
+                            git pull --rebase origin ${env.BRANCH_NAME} &&
+                            npm ci &&
+                            NODE_ENV=${nodeEnv} pm2 start server.js --name health-api -f
+                        '
+                        """
+                    }
+
                 }
             }
         }
