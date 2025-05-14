@@ -10,7 +10,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.get('/age', (_req, res) => {
-  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), age: '21 years old' });
+  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), age: '21 years old :]' });
 });
 
 app.get('/nationality'), (_req, res) =>{
