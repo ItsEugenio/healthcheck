@@ -6,7 +6,7 @@ app.use(helmet());
 app.use(express.json());
 
 app.get('/health', (_req, res) => {
-  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), author: 'Eugenio Gordillo Argüello' });
+  res.status(200).json({ status: 'UP', timestamp: new Date().toISOString(), author: 'Eugenio Gordillo Argüello!' });
 });
 
 app.get('/age', (_req, res) => {
