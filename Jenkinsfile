@@ -35,7 +35,6 @@ pipeline {
                         nodeEnv = 'qa'
                     } else if (env.BRANCH_NAME == 'main') {
                         nodeEnv = 'production'
-                        input message: "¿Confirmar despliegue a producción?"
                     }
 
                     echo "🚀 Desplegando a ${nodeEnv.toUpperCase()} en ${EC2_IP}"
